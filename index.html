@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safári das Palavras — Português 3º ano (Unidades 10 e 11)</title>
+<style>
+  :root{
+    --sav:#E8A020; --sav-esc:#B87910;
+    --aca:#4E944F; --aca-esc:#356B36;
+    --sol:#E8743B; --sol-esc:#C1551F;
+    --rio:#2E86AB; --rio-esc:#1F5F7D;
+    --fundo:#FBF6EC; --cartao:#FFFFFF; --texto:#33302A; --cinza:#8A8578;
+    --sombra:0 6px 0 rgba(0,0,0,.07), 0 10px 25px rgba(0,0,0,.06);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Trebuchet MS','Segoe UI',system-ui,sans-serif;background:
+    radial-gradient(circle at 12% 8%, #FDEFCB 0, transparent 42%),
+    radial-gradient(circle at 88% 6%, #DDEEDB 0, transparent 44%),
+    var(--fundo);color:var(--texto);line-height:1.6;}
+  header.topo{background:linear-gradient(120deg,var(--sav),var(--sol));color:#fff;
+    padding:26px 16px 20px;text-align:center;border-bottom:6px solid var(--aca);}
+  header.topo h1{margin:0;font-size:1.9rem;text-shadow:0 2px 0 rgba(0,0,0,.15);}
+  header.topo p{margin:6px 0 0;font-size:1.05rem;opacity:.97;}
+  .prova-tag{display:inline-block;background:var(--aca);color:#fff;font-weight:bold;
+    padding:4px 14px;border-radius:20px;margin-top:10px;font-size:.95rem;}
+  nav.abas{position:sticky;top:0;z-index:50;background:#fff;display:flex;flex-wrap:wrap;
+    justify-content:center;gap:6px;padding:10px;box-shadow:0 3px 10px rgba(0,0,0,.08);}
+  nav.abas button{border:none;background:#F3EAD6;color:var(--texto);font-weight:bold;
+    font-size:1rem;padding:10px 14px;border-radius:14px;cursor:pointer;transition:.15s;
+    font-family:inherit;}
+  nav.abas button:hover{transform:translateY(-2px);}
+  nav.abas button.ativa{background:var(--rio);color:#fff;box-shadow:0 4px 0 var(--rio-esc);}
+  main{max-width:920px;margin:0 auto;padding:18px 14px 60px;}
+  section.tela{display:none;animation:aparece .35s ease;}
+  section.tela.ativa{display:block;}
+  @keyframes aparece{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  .cartao{background:var(--cartao);border-radius:20px;padding:20px;margin:16px 0;box-shadow:var(--sombra);}
+  h2.titsec{font-size:1.5rem;margin:.2em 0 .4em;}
+  .trilha{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0;}
+  .passo{background:#F3EAD6;border-radius:16px;padding:12px 14px;flex:1 1 170px;text-align:center;
+    border:2px dashed #e0cfa6;cursor:pointer;transition:.15s;}
+  .passo:hover{transform:translateY(-3px);border-color:var(--aca);}
+  .passo .n{display:inline-block;background:var(--sav);color:#fff;font-weight:bold;
+    width:30px;height:30px;line-height:30px;border-radius:50%;margin-bottom:6px;}
+  .lista-cai li{margin:6px 0;}
+  .btn{background:var(--rio);color:#fff;border:none;font-weight:bold;font-size:1rem;
+    padding:11px 18px;border-radius:14px;cursor:pointer;box-shadow:0 4px 0 var(--rio-esc);
+    font-family:inherit;transition:.1s;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--rio-esc);}
+  .btn.roxo{background:var(--aca);box-shadow:0 4px 0 var(--aca-esc);}
+  .btn.sol{background:var(--sav);color:#fff;box-shadow:0 4px 0 var(--sav-esc);}
+  .btn.pequeno{padding:7px 12px;font-size:.9rem;}
+  .bloco{border-radius:18px;margin:16px 0;box-shadow:var(--sombra);overflow:hidden;
+    border:2px solid #eee;background:#fff;}
+  .bloco.bloqueado{opacity:.55;}
+  .bloco-cab{padding:14px 16px;color:#fff;font-size:1.15rem;font-weight:bold;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;gap:8px;}
+  .bloco-corpo{padding:16px;display:none;}
+  .bloco.aberto .bloco-corpo{display:block;}
+  .texto-leitura p{margin:.5em 0;}
+  .conceitos{background:#FFF6DC;border-left:6px solid var(--sav);border-radius:10px;
+    padding:10px 14px;margin:12px 0;font-size:.98rem;}
+  .pergunta{background:#F4F0E6;border-radius:14px;padding:12px 14px;margin:12px 0;}
+  .pergunta .rotulo{font-weight:bold;margin-bottom:6px;}
+  .status-bloco{font-weight:bold;margin-top:10px;padding:8px 12px;border-radius:10px;display:none;}
+  .status-bloco.ok{background:#E3F2D8;color:#3E7A32;display:block;}
+  .status-bloco.rev{background:#FFF3CD;color:#7a5b00;display:block;}
+  .progresso{height:16px;background:#ece3cf;border-radius:10px;overflow:hidden;margin:10px 0;}
+  .progresso > div{height:100%;background:linear-gradient(90deg,var(--rio),var(--sav));width:0;transition:.4s;}
+  .estrelas{font-size:1.3rem;letter-spacing:3px;}
+  .q-card{background:#fff;border-radius:16px;padding:16px;margin:14px 0;box-shadow:var(--sombra);}
+  .q-enunciado{font-weight:bold;font-size:1.08rem;margin-bottom:10px;}
+  .opcao{display:block;width:100%;text-align:left;background:#F4F0E6;border:2px solid #e7ddc6;
+    border-radius:12px;padding:11px 14px;margin:7px 0;cursor:pointer;font-size:1rem;font-family:inherit;
+    transition:.12s;}
+  .opcao:hover{border-color:var(--rio);}
+  .opcao .letra{display:inline-block;font-weight:bold;background:#e4d7b8;border-radius:8px;
+    width:26px;height:26px;line-height:26px;text-align:center;margin-right:8px;}
+  .opcao.correta{background:#E3F2D8;border-color:#5FA84E;}
+  .opcao.errada{background:#FDE8E4;border-color:#E07A5F;}
+  .opcao.marcada{border-color:var(--rio-esc);}
+  .explica{margin-top:8px;background:#EAF4FF;border-radius:10px;padding:9px 12px;font-size:.95rem;display:none;}
+  .explica.mostra{display:block;}
+  .resultado{text-align:center;padding:20px;}
+  .resultado .nota{font-size:2.4rem;font-weight:bold;color:var(--aca-esc);}
+  .timeline{position:relative;margin:16px 0;padding-left:26px;border-left:4px solid var(--sav);}
+  .evento{position:relative;margin:14px 0;background:#fff;border-radius:12px;padding:10px 14px;box-shadow:var(--sombra);}
+  .evento::before{content:"";position:absolute;left:-33px;top:16px;width:16px;height:16px;
+    background:var(--sol);border:3px solid #fff;border-radius:50%;}
+  .evento .ano{font-weight:bold;color:var(--sol-esc);}
+  .grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+  .verbete{background:#F4F0E6;border-radius:12px;padding:10px 12px;}
+  .verbete b{color:var(--aca-esc);}
+  .postit{background:var(--sav);color:#4a3600;border-radius:10px;padding:12px 14px;margin:8px 0;
+    box-shadow:2px 3px 8px rgba(0,0,0,.12);transform:rotate(-1deg);}
+  .relampago{background:#EAF4FF;border-radius:12px;padding:12px 14px;margin:8px 0;cursor:pointer;}
+  .relampago .resp{display:none;margin-top:6px;font-weight:bold;color:var(--aca-esc);}
+  .relampago.abre .resp{display:block;}
+  .lenda{background:#FFF6DC;border-left:6px solid var(--aca);border-radius:12px;padding:12px 16px;margin:10px 0;}
+  .lenda p{margin:.5em 0;}
+  .painel{background:#F3EAD6;border-radius:16px;padding:14px;margin:16px 0;font-size:.95rem;}
+  .painel .botoes{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+  .cadeado{text-align:center;padding:24px;}
+  .cadeado input{font-size:1.1rem;padding:10px 14px;border-radius:12px;border:2px solid #ddceac;
+    text-align:center;letter-spacing:2px;text-transform:uppercase;font-family:inherit;}
+  .relatorio{display:none;}
+  .relatorio.mostra{display:block;}
+  .rel-mat{background:#fff;border-radius:14px;padding:12px 14px;margin:10px 0;box-shadow:var(--sombra);}
+  .rel-mat h4{margin:.2em 0;}
+  .rodape{text-align:center;color:var(--cinza);font-size:.9rem;padding:20px;}
+  .cor1{background:linear-gradient(120deg,#E8A020,#E8743B);}
+  .cor2{background:linear-gradient(120deg,#4E944F,#E8A020);}
+  .cor3{background:linear-gradient(120deg,#2E86AB,#4E944F);}
+  .cor4{background:linear-gradient(120deg,#E8743B,#E8A020);}
+  .cor5{background:linear-gradient(120deg,#4E944F,#2E86AB);}
+  .cor6{background:linear-gradient(120deg,#2E86AB,#E8743B);}
+  .cor7{background:linear-gradient(120deg,#E8A020,#4E944F);}
+  .mapa-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:14px 0;}
+  .mm-card{background:#fff;border-radius:18px;box-shadow:var(--sombra);overflow:hidden;border:2px solid #eee;}
+  .mm-cab{padding:12px 14px;color:#fff;font-weight:bold;font-size:1.1rem;}
+  .mm-corpo{padding:12px 14px;}
+  .mm-mais{display:none;background:#FFF6DC;border-radius:10px;padding:8px 12px;margin:8px 0;font-size:.95rem;}
+  .mm-mais.mostra{display:block;}
+  .mm-central{background:linear-gradient(120deg,#FDEFCB,#DDEEDB);border:3px dashed var(--sav-esc);}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{background:var(--sav);color:#fff;font-weight:bold;border-radius:20px;padding:6px 12px;font-size:.95rem;}
+  .vf-frase{font-size:1.3rem;font-weight:bold;text-align:center;padding:18px 10px;min-height:90px;}
+  .vf-botoes{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .vf-btn{font-size:1.2rem;padding:14px 26px;border:none;border-radius:16px;font-weight:bold;cursor:pointer;color:#fff;font-family:inherit;}
+  .vf-v{background:#5FA84E;box-shadow:0 4px 0 #3E7A32;}
+  .vf-f{background:#E07A5F;box-shadow:0 4px 0 #b3533a;}
+  .vf-btn:disabled{opacity:.5;cursor:default;}
+  .vf-contador{text-align:center;color:var(--aca-esc);font-weight:bold;}
+  .trofeu{font-size:4rem;}
+  @media(max-width:520px){header.topo h1{font-size:1.4rem;} main{padding:12px 8px 50px;}}
+</style>
+</head>
+<body>
+<header class="topo">
+  <h1>🦒 Safári das Palavras</h1>
+  <p>Português • 3º ano • Colégio Coração Feliz</p>
+  <p>Unidade 10 — Classificados &nbsp;•&nbsp; Unidade 11 — Lendas da Mãe África</p>
+  <span class="prova-tag">📅 Prova: quinta-feira, 15/10</span>
+</header>
+
+<nav class="abas" id="abas">
+  <button class="ativa" data-tela="inicio">🏠 Início</button>
+  <button data-tela="mapa">🗺️ Mapa Mental</button>
+  <button data-tela="leitura">📖 Leitura Guiada</button>
+  <button data-tela="resumo">🗺️ Resumo</button>
+  <button data-tela="vf">✅ Verdadeiro ou Falso</button>
+  <button data-tela="simulado">📝 Simulado</button>
+  <button data-tela="pais">📊 Relatório para os pais</button>
+</nav>
+
+<main>
+  <!-- INÍCIO -->
+  <section class="tela ativa" id="inicio">
+    <div class="cartao">
+      <h2 class="titsec">Oi, jovem aprendiz! 👋</h2>
+      <p>Bem-vindo ao <b>Safári das Palavras</b>! Quem vai te guiar pela savana é a
+      <b>Zilá, a girafa exploradora</b> 🦒🔭. Com o pescoço bem alto, ela enxerga longe e adora
+      <b>procurar</b> palavras — igual a quem procura algo nos <b>classificados</b>!
+      Vamos visitar <b>7 paradas</b> e ficar prontos para a prova de quinta! 💪</p>
+      <div class="trilha">
+        <div class="passo" data-ir="mapa"><span class="n">1</span><br><b>🗺️ Mapa Mental</b><br><small>Ver tudo de uma vez</small></div>
+        <div class="passo" data-ir="leitura"><span class="n">2</span><br><b>📖 Leitura Guiada</b><br><small>Aprender lendo e clicando</small></div>
+        <div class="passo" data-ir="resumo"><span class="n">3</span><br><b>🗺️ Resumo</b><br><small>Revisar rapidinho</small></div>
+        <div class="passo" data-ir="vf"><span class="n">4</span><br><b>✅ Verdadeiro ou Falso</b><br><small>Jogar e treinar</small></div>
+        <div class="passo" data-ir="simulado"><span class="n">5</span><br><b>📝 Simulado</b><br><small>Prova de treino</small></div>
+      </div>
+    </div>
+    <div class="cartao">
+      <h2 class="titsec">📌 O que vai cair na prova</h2>
+      <ul class="lista-cai">
+        <li>📋 O <b>classificado (anúncio)</b>: para que serve e como ele é.</li>
+        <li>🎨 Os <b>adjetivos</b>: a característica do substantivo (e como combinam em gênero e número).</li>
+        <li>🌍 Os <b>adjetivos pátrios</b>: a palavra que diz de onde a pessoa é (cearense, francês…).</li>
+        <li>🥁 O uso de <b>C ou QU</b> com som de K.</li>
+        <li>👣 A <b>classificação das sílabas</b>: monossílaba, dissílaba, trissílaba e polissílaba.</li>
+        <li>🔊 A <b>sílaba tônica</b>: oxítona, paroxítona e proparoxítona.</li>
+        <li>🎵 Os <b>monossílabos tônicos</b> e a <b>acentuação</b> das oxítonas.</li>
+      </ul>
+    </div>
+    <div class="cartao">
+      <h2 class="titsec">Como usar este material</h2>
+      <p>Siga a trilha na ordem: <b>Mapa Mental → Leitura Guiada → Resumo → Verdadeiro ou Falso → Simulado</b>.
+      Comece pelo <b>Mapa Mental</b> para ver o assunto inteiro de uma vez.
+      Na Leitura, você <b>lê cada parada e clica na resposta certa</b> — assim você fixa o que aprendeu! 🌟</p>
+      <div class="painel">
+        💾 <b>Seu progresso fica salvo sozinho</b> neste aparelho.
+        <div class="botoes">
+          <button class="btn pequeno sol" onclick="exportar()">📥 Exportar</button>
+          <button class="btn pequeno" onclick="document.getElementById('imp').click()">📤 Importar</button>
+          <input type="file" id="imp" style="display:none" accept=".json" onchange="importar(event)">
+          <button class="btn pequeno" style="background:#c98a8a;box-shadow:0 4px 0 #a76a6a" onclick="zerarTudo()">🗑️ Zerar tudo</button>
+        </div>
+        <div id="salvo-info" style="margin-top:6px;color:#6b6478;font-size:.85rem;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPA MENTAL -->
+  <section class="tela" id="mapa">
+    <div class="cartao">
+      <h2 class="titsec">🗺️ Mapa Mental — tudo num olhar</h2>
+      <p>Aqui está <b>tudo</b> o que vai cair na prova, dividido em 7 paradas. Leia cada cartão,
+      clique em <b>🔎 Ver mais</b> para abrir os detalhes e responda o <b>mini-quiz</b> de cada um! ✨</p>
+    </div>
+    <div class="cartao mm-central">
+      <h2 class="titsec">🦒 A trilha do safári</h2>
+      <div class="timeline" id="mm-timeline"></div>
+    </div>
+    <div class="mapa-grade" id="mapa-grade"></div>
+    <div class="cartao">
+      <h2 class="titsec">📌 Resumão da Prova</h2>
+      <p>As palavras-chave que você precisa saber:</p>
+      <div class="chips" id="mm-chips"></div>
+      <div style="text-align:center;margin-top:16px">
+        <button class="btn roxo" onclick="irPara('leitura')">Começar a Leitura Guiada 📖</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEITURA -->
+  <section class="tela" id="leitura">
+    <div class="cartao">
+      <h2 class="titsec">📖 Leitura Guiada</h2>
+      <p>Leia cada parada e responda as <b>3 perguntas</b> clicando na resposta certa.
+      Depois clique em <b>Conferir</b> para ver se acertou — ele mostra a explicação e
+      libera a próxima parada! 😉</p>
+      <div class="progresso"><div id="barra-leitura"></div></div>
+      <div class="estrelas" id="estrelas-leitura">☆☆☆☆☆☆☆</div>
+    </div>
+    <div id="blocos"></div>
+    <div class="cartao" id="fim-leitura" style="display:none">
+      <h2 class="titsec">⚠️ 10 Pegadinhas da prova</h2>
+      <ol id="pegadinhas"></ol>
+      <h2 class="titsec" style="margin-top:18px">🧭 Cobertura: cada tópico está em qual parada?</h2>
+      <div id="cobertura"></div>
+      <h2 class="titsec" style="margin-top:18px">🔁 Para revisar</h2>
+      <div id="para-revisar">Nada por aqui ainda — ótimo trabalho! 🌟</div>
+      <div style="text-align:center;margin-top:14px">
+        <button class="btn roxo" onclick="irPara('resumo')">Ir para o Resumo 🗺️</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESUMO -->
+  <section class="tela" id="resumo">
+    <div class="cartao">
+      <h2 class="titsec">🗺️ Resumo relâmpago</h2>
+      <p>Revisão rapidinha antes da prova! ⚡</p>
+    </div>
+    <div class="cartao">
+      <h2 class="titsec">🦒 A trilha do safári (passo a passo)</h2>
+      <div class="timeline" id="timeline"></div>
+    </div>
+    <div class="cartao">
+      <h2 class="titsec">📚 Palavras importantes</h2>
+      <div class="grade" id="glossario"></div>
+    </div>
+    <div class="cartao">
+      <h2 class="titsec">💛 Dicas de ouro (não erre!)</h2>
+      <div id="dicas"></div>
+    </div>
+    <div class="cartao">
+      <h2 class="titsec">📖 Texto para interpretar — "Por que a cobra muda de pele"</h2>
+      <p><i>Lenda tradicional de Serra Leoa, na África Ocidental (Unidade 11). Leia e depois clique nas perguntas.</i></p>
+      <div class="lenda">
+        <p>No começo, a morte não existia no mundo humano, porque Deus a mantinha junto a si. Mas a morte
+        tanto pediu que Deus a deixou partir, e ela afetou a vida de todos os seres vivos. Por isso, Deus
+        fez uma promessa ao ser humano: o homem ganharia <b>novas peles</b>, que poderiam ser vestidas
+        quando os corpos envelhecessem, para enganar a morte.</p>
+        <p>Deus colocou as novas peles em um <b>cesto</b> e pediu ao <b>cachorro</b> que as levasse ao homem.
+        No meio do caminho, o cachorro sentiu fome, encontrou outros animais numa festa e comeu até se fartar.
+        Depois, deitou-se à sombra de uma árvore e cochilou.</p>
+        <p>Foi então que uma <b>cobra</b> espertalhona perguntou o que havia no cesto. O cachorro contou tudo,
+        e a cobra decidiu pegar o cesto para si. Quando o cachorro dormiu, ela apanhou o cesto e fugiu.</p>
+        <p>O homem ficou muito bravo e pediu a Deus que obrigasse a cobra a devolver as peles, mas Deus disse
+        que não faria isso. Por isso, o homem passou a perseguir a cobra, e a cobra evita o homem e guarda bem
+        escondido o cesto, usando-o para <b>trocar de pele</b> sempre que sente que está envelhecendo.</p>
+      </div>
+      <div id="relampago-lenda"></div>
+    </div>
+    <div class="cartao">
+      <h2 class="titsec">⚡ Mini-quiz relâmpago</h2>
+      <p>Clique em cada pergunta para ver a resposta.</p>
+      <div id="relampago"></div>
+      <div style="text-align:center;margin-top:14px">
+        <button class="btn roxo" onclick="irPara('vf')">Quero jogar verdadeiro ou falso! ✅</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERDADEIRO OU FALSO -->
+  <section class="tela" id="vf">
+    <div class="cartao">
+      <h2 class="titsec">✅ Jogo Verdadeiro ou Falso</h2>
+      <p>Leia a frase e diga se ela é <b>verdadeira</b> ou <b>falsa</b>. A cada rodada o jogo sorteia
+      <b>12 frases</b> diferentes. Depois de responder, aparece a explicação! 🌟</p>
+      <div class="progresso"><div id="barra-vf"></div></div>
+      <div class="vf-contador" id="vf-contador"></div>
+    </div>
+    <div class="cartao" id="vf-jogo">
+      <div class="vf-frase" id="vf-frase"></div>
+      <div class="vf-botoes">
+        <button class="vf-btn vf-v" id="vf-bv" onclick="respondeVF(true)">✅ Verdadeiro</button>
+        <button class="vf-btn vf-f" id="vf-bf" onclick="respondeVF(false)">❌ Falso</button>
+      </div>
+      <div class="explica" id="vf-explica"></div>
+      <div style="text-align:center;margin-top:12px">
+        <button class="btn" id="vf-prox" style="display:none" onclick="proximaVF()">Próxima frase ➡️</button>
+      </div>
+    </div>
+    <div class="cartao resultado" id="vf-resultado" style="display:none"></div>
+  </section>
+
+  <!-- SIMULADO -->
+  <section class="tela" id="simulado">
+    <div class="cartao">
+      <h2 class="titsec">📝 Simulado</h2>
+      <p>25 perguntas, como numa prova de verdade. Responda com calma e depois
+      clique em <b>Corrigir minha prova</b>. Você consegue! 💪</p>
+      <div class="progresso"><div id="barra-simulado"></div></div>
+    </div>
+    <div id="sim-qs"></div>
+    <div class="cartao" style="text-align:center">
+      <button class="btn roxo" onclick="corrigirSimulado()">Corrigir minha prova ✅</button>
+    </div>
+    <div class="cartao resultado" id="sim-resultado" style="display:none"></div>
+  </section>
+
+  <!-- PAIS -->
+  <section class="tela" id="pais">
+    <div class="cartao">
+      <h2 class="titsec">📊 Relatório para os pais</h2>
+      <div class="cadeado" id="cadeado-pais">
+        <p>Esta área é para os pais 👨‍👩‍👧. Digite o código da família para abrir:</p>
+        <input id="cod-pais" placeholder="CÓDIGO" maxlength="9">
+        <br><br>
+        <button class="btn" onclick="abrirPais()">Abrir 🔓</button>
+        <div id="erro-pais" style="color:#c2543a;margin-top:8px;font-weight:bold"></div>
+      </div>
+      <div class="relatorio" id="relatorio-pais"></div>
+    </div>
+  </section>
+</main>
+
+<div class="rodape">
+  Feito com carinho para a aventura de estudar 💛 • Conteúdo baseado no livro <i>Phases Língua Portuguesa 3 — Livro 2</i> (Poliedro), Unidade 10 "Procura algo? Use os classificados!" e Unidade 11 "Lendas da Mãe África".
+</div>
+
+<script>
+/* ===================== ESTADO + SALVAMENTO ===================== */
+const CHAVE = "kit_portugues_3ano_un10-11_safari_v1";
+let memoria = {};
+function carregar(){ try{ const s = localStorage.getItem(CHAVE); return s ? JSON.parse(s) : {}; } catch(e){ return memoria || {}; } }
+function salvar(){
+  try{ localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch(e){ memoria = estado; }
+  const info = document.getElementById('salvo-info');
+  if(info){ const d=new Date(); info.textContent = "Salvo automaticamente às " + d.toLocaleTimeString('pt-BR'); }
+}
+let estado = carregar();
+estado.leitura = estado.leitura || {};
+estado.mapa = estado.mapa || {resp:{}};
+estado.vf = estado.vf || {melhor:0, ultima:null, rodadas:0};
+estado.simulado = estado.simulado || {resp:{}, feito:false, acertos:0};
+
+/* ===================== LEITURA GUIADA (7 paradas) ===================== */
+const BLOCOS = [
+ {
+  id:"b1", cor:"cor1", emoji:"📋", titulo:"Parada 1 — Mural do Oásis (Classificado)",
+  texto:`<p>Um <b>classificado</b> (também chamado de <b>anúncio</b>) é um texto <b>curto</b> que serve
+  para <b>procurar, vender, comprar ou oferecer</b> alguma coisa: um objeto, uma casa, um serviço ou até
+  um emprego.</p>
+  <p>Antigamente, os classificados apareciam muito nos <b>jornais de papel</b>. Por volta dos anos 2000 eles
+  começaram a diminuir, porque as pessoas passaram a usar a <b>internet</b>. Hoje a maioria dos classificados
+  está no mundo <b>digital</b>: em sites e aplicativos.</p>
+  <p>Como o espaço é pequeno, o classificado traz uma <b>descrição breve</b> (curta) do que se anuncia. Muitas
+  vezes usa <b>abreviações</b> (palavras encurtadas) e um <b>telefone</b> de contato. Algumas palavras
+  aparecem em letras <b>MAIÚSCULAS</b> para chamar a atenção.</p>
+  <p>No livro, o Texto 1 "Procura-se um equilibrista" é um anúncio em forma de <b>poema</b>, que procura
+  alguém com certas habilidades. Já o Texto 2 é um anúncio de um <b>serviço</b> (manutenção predial).</p>`,
+  conceitos:"⭐ Classificado/anúncio = texto curto para procurar, vender, comprar ou oferecer algo. Tem descrição breve, às vezes abreviações e telefone. Hoje aparece muito na internet.",
+  perguntas:[
+   {q:"Para que serve um classificado (anúncio)?",
+    ops:["Para procurar, vender, comprar ou oferecer alguma coisa","Para contar uma história de fadas","Para ensinar uma receita de bolo","Para dar uma notícia sobre o mundo"],
+    certa:"Para procurar, vender, comprar ou oferecer alguma coisa",
+    exp:"O classificado é um texto curto para anunciar: procurar, vender, comprar ou oferecer algo."},
+   {q:"Onde os classificados aparecem MAIS hoje em dia?",
+    ops:["Na internet, em sites e aplicativos","Só em livros de histórias","Apenas nos jornais de papel, como antigamente","Em lugar nenhum"],
+    certa:"Na internet, em sites e aplicativos",
+    exp:"Os classificados passaram do jornal de papel para o mundo digital: hoje aparecem em sites e aplicativos."},
+   {q:"Por que o classificado costuma ter descrição breve e abreviações?",
+    ops:["Porque o espaço é pequeno","Porque quem escreve não sabe ler","Porque é proibido escrever muito","Porque é sempre um poema longo"],
+    certa:"Porque o espaço é pequeno",
+    exp:"Como o espaço do anúncio é pequeno, a descrição é curta e usam-se abreviações para caber tudo."}
+  ]
+ },
+ {
+  id:"b2", cor:"cor2", emoji:"🎨", titulo:"Parada 2 — Cores da Savana (Adjetivos)",
+  texto:`<p>O <b>adjetivo</b> é a palavra que mostra uma <b>característica</b> (uma qualidade ou um jeito) do
+  <b>substantivo</b>. No trecho de "João e o pé de feijão", os feijões eram <b>coloridos, brilhantes e
+  vistosos</b> — essas três palavras são adjetivos que descrevem os feijões.</p>
+  <p>O adjetivo <b>combina</b> com o substantivo em <b>gênero</b> (feminino ou masculino) e em <b>número</b>
+  (singular ou plural). Se trocamos "feijões" (masculino) por "sementes" (feminino), os adjetivos também
+  mudam: sementes <b>coloridas, brilhantes e vistosas</b>.</p>
+  <p>Alguns adjetivos são <b>invariáveis</b>: têm uma forma só para o feminino e para o masculino, como
+  <b>grande, enorme, inteligente</b> e <b>brilhante</b>.</p>
+  <p>A <b>posição</b> do adjetivo pode mudar o sentido da frase: "um homem <b>grande</b>" fala do tamanho;
+  "um <b>grande</b> homem" fala de alguém muito bom ou importante.</p>`,
+  conceitos:"⭐ Adjetivo = característica do substantivo. Combina em gênero (fem/masc) e número (sing/plural). Invariáveis: grande, enorme, inteligente (uma forma só). A posição pode mudar o sentido: homem grande ≠ grande homem.",
+  perguntas:[
+   {q:"O que é um adjetivo?",
+    ops:["A palavra que mostra uma característica do substantivo","Uma palavra que indica uma ação","O nome de um lugar","Um número"],
+    certa:"A palavra que mostra uma característica do substantivo",
+    exp:"O adjetivo mostra a característica (qualidade) do substantivo, como em 'feijões coloridos'."},
+   {q:"Na frase 'as sementes coloridas e brilhantes', por que os adjetivos estão no feminino?",
+    ops:["Porque combinam com o substantivo 'sementes', que é feminino","Porque o autor quis enfeitar","Porque é uma regra do classificado","Porque estão no masculino"],
+    certa:"Porque combinam com o substantivo 'sementes', que é feminino",
+    exp:"O adjetivo combina em gênero com o substantivo: 'sementes' é feminino, então os adjetivos ficam no feminino."},
+   {q:"Qual destes adjetivos é invariável (uma forma só para feminino e masculino)?",
+    ops:["inteligente","bonito","alto","magro"],
+    certa:"inteligente",
+    exp:"'Inteligente' serve para menino inteligente e menina inteligente: é invariável. Já bonito/bonita muda."}
+  ]
+ },
+ {
+  id:"b3", cor:"cor3", emoji:"🌍", titulo:"Parada 3 — De Onde Você Vem (Adjetivos pátrios)",
+  texto:`<p>Os <b>adjetivos pátrios</b> são as palavras que indicam o <b>lugar de origem</b> das pessoas —
+  de onde elas nasceram.</p>
+  <p>No livro aparecem estes exemplos:</p>
+  <p>🌎 <b>cearense</b> = quem nasce no Ceará;<br>
+  🌎 <b>pernambucano</b> = quem nasce em Pernambuco;<br>
+  🌎 <b>francês</b> = quem nasce na França;<br>
+  🌎 <b>alemão</b> = quem nasce na Alemanha.</p>
+  <p>Seguindo a mesma ideia, no texto da unidade: quem nasce na <b>Inglaterra</b> é <b>inglês</b>; quem nasce
+  na <b>Europa</b> é <b>europeu</b>; quem nasce em <b>Londres</b> é <b>londrino</b>.</p>`,
+  conceitos:"⭐ Adjetivo pátrio = indica o lugar de origem da pessoa. Exemplos do livro: cearense (Ceará), pernambucano (Pernambuco), francês (França), alemão (Alemanha).",
+  perguntas:[
+   {q:"O que indica um adjetivo pátrio?",
+    ops:["O lugar de origem da pessoa (de onde ela nasceu)","A idade da pessoa","A cor preferida da pessoa","O tamanho da pessoa"],
+    certa:"O lugar de origem da pessoa (de onde ela nasceu)",
+    exp:"O adjetivo pátrio diz de onde a pessoa é, como cearense (do Ceará) ou francês (da França)."},
+   {q:"Quem nasce no Ceará é...",
+    ops:["cearense","pernambucano","francês","alemão"],
+    certa:"cearense",
+    exp:"Quem nasce no Ceará é cearense — esse é o adjetivo pátrio desse estado."},
+   {q:"Quem nasce na França é...",
+    ops:["francês","alemão","cearense","inglês"],
+    certa:"francês",
+    exp:"Quem nasce na França é francês. Da Alemanha seria alemão; da Inglaterra, inglês."}
+  ]
+ },
+ {
+  id:"b4", cor:"cor4", emoji:"🥁", titulo:"Parada 4 — Trilha do Som K (C ou QU)",
+  texto:`<p>Às vezes a letra <b>C</b> e o dígrafo <b>QU</b> têm o <b>mesmo som</b> — o som da letra <b>K</b>.</p>
+  <p>➡️ Usamos <b>C</b> com som de K antes das vogais <b>A, O e U</b>: ca, co, cu (como em <b>ca</b>sa,
+  <b>co</b>po, <b>cu</b>ca).</p>
+  <p>➡️ Usamos <b>QU</b> com som de K antes das vogais <b>E e I</b>: que, qui (como em <b>que</b>ijo,
+  <b>qui</b>lo). Por isso a palavra <b>pequi</b> se escreve com QU: o som de K vem antes do I.</p>
+  <p>Atenção ao <b>U do QU</b>: quando o QU vem antes de <b>A</b>, o U <b>é pronunciado</b> (nós ouvimos o U,
+  como em "quadro"). Quando o QU vem antes de <b>E ou I</b>, o U <b>não é pronunciado</b>.</p>`,
+  conceitos:"⭐ C com som de K antes de A, O, U (ca, co, cu). QU com som de K antes de E e I (que, qui). No QU antes de A o U é pronunciado; antes de E/I o U não é pronunciado.",
+  perguntas:[
+   {q:"A letra C tem som de K antes de quais vogais?",
+    ops:["A, O e U","E e I","Só o A","Todas as vogais"],
+    certa:"A, O e U",
+    exp:"C tem som de K antes de A, O e U: casa, copo, cuca."},
+   {q:"Para ter o som de K antes de E ou I, usamos...",
+    ops:["QU (que, qui)","C (ce, ci)","S","K sozinho"],
+    certa:"QU (que, qui)",
+    exp:"Antes de E e I, o som de K é escrito com QU: queijo, quilo. (C antes de E/I teria som de S.)"},
+   {q:"Por que a palavra 'pequi' é escrita com QU?",
+    ops:["Porque o som de K vem antes do I","Porque é o nome de uma fruta","Porque tem acento","Porque é uma palavra curta"],
+    certa:"Porque o som de K vem antes do I",
+    exp:"O som de K antes de I se escreve com QU; por isso é pequi, e não 'peci'."}
+  ]
+ },
+ {
+  id:"b5", cor:"cor5", emoji:"👣", titulo:"Parada 5 — Passos da Palavra (Número de sílabas)",
+  texto:`<p>Podemos classificar as palavras pelo <b>número de sílabas</b> que elas têm:</p>
+  <p>👣 <b>Monossílabas</b>: têm só <b>1 sílaba</b>. Ex.: <b>sol</b>, <b>pé</b>, <b>flor</b>.</p>
+  <p>👣👣 <b>Dissílabas</b>: têm <b>2 sílabas</b>. Ex.: <b>ca-sa</b>, <b>bo-la</b>, <b>li-vro</b>.</p>
+  <p>👣👣👣 <b>Trissílabas</b>: têm <b>3 sílabas</b>. Ex.: <b>me-ni-no</b>, <b>sor-ri-so</b>, <b>ja-ne-la</b>.</p>
+  <p>👣👣👣👣 <b>Polissílabas</b>: têm <b>4 ou mais sílabas</b>. Ex.: <b>bor-bo-le-ta</b>, <b>te-le-fo-ne</b>,
+  <b>com-pu-ta-dor</b>.</p>`,
+  conceitos:"⭐ Mono = 1 sílaba (sol, pé). Di = 2 (casa, bola). Tri = 3 (menino, janela). Poli = 4 ou mais (borboleta, computador).",
+  perguntas:[
+   {q:"Uma palavra monossílaba tem quantas sílabas?",
+    ops:["1","2","3","4 ou mais"],
+    certa:"1",
+    exp:"Monossílaba = 1 sílaba, como sol, pé e flor."},
+   {q:"A palavra 'borboleta' (bor-bo-le-ta) é...",
+    ops:["polissílaba","monossílaba","dissílaba","trissílaba"],
+    certa:"polissílaba",
+    exp:"'Borboleta' tem 4 sílabas (bor-bo-le-ta), por isso é polissílaba (4 ou mais)."},
+   {q:"Qual destas palavras é dissílaba (2 sílabas)?",
+    ops:["bola","sol","menino","computador"],
+    certa:"bola",
+    exp:"'Bola' tem 2 sílabas (bo-la): é dissílaba. Sol = 1, menino = 3, computador = 4."}
+  ]
+ },
+ {
+  id:"b6", cor:"cor6", emoji:"🔊", titulo:"Parada 6 — Batida Mais Forte (Oxítona, paroxítona, proparoxítona)",
+  texto:`<p>A <b>sílaba tônica</b> é a sílaba <b>mais forte</b> da palavra — a que falamos com mais força.
+  Pela posição dessa sílaba forte, as palavras podem ser:</p>
+  <p>🔊 <b>Oxítonas</b>: a sílaba forte é a <b>última</b>. Podem ter acento ou não. Ex.: ca-<b>fé</b>,
+  li-<b>mão</b>, fe-<b>liz</b>.</p>
+  <p>🔊 <b>Paroxítonas</b>: a sílaba forte é a <b>penúltima</b> (a segunda de trás para frente). Podem ter
+  acento ou não. Ex.: ca-<b>rá</b>-ter, he-<b>roi</b>-co, <b>jú</b>-ri.</p>
+  <p>🔊 <b>Proparoxítonas</b>: a sílaba forte é a <b>antepenúltima</b> (a terceira de trás para frente). São
+  <b>SEMPRE acentuadas</b>. Ex.: ma-te-<b>má</b>-ti-ca, <b>lâm</b>-pa-da, <b>ár</b>-vo-re.</p>`,
+  conceitos:"⭐ Oxítona = força na ÚLTIMA sílaba (café, limão). Paroxítona = força na PENÚLTIMA (júri, caráter). Proparoxítona = força na ANTEPENÚLTIMA e SEMPRE tem acento (lâmpada, árvore, matemática).",
+  perguntas:[
+   {q:"Na palavra 'café', a sílaba forte é a última. Então 'café' é...",
+    ops:["oxítona","paroxítona","proparoxítona","monossílaba"],
+    certa:"oxítona",
+    exp:"Oxítona tem a força na última sílaba: ca-FÉ."},
+   {q:"As palavras proparoxítonas (como lâmpada e árvore)...",
+    ops:["são sempre acentuadas","nunca têm acento","têm a força na última sílaba","não existem"],
+    certa:"são sempre acentuadas",
+    exp:"Toda proparoxítona é acentuada: lâmpada, árvore, matemática."},
+   {q:"A palavra 'júri' tem a força na penúltima sílaba. Ela é...",
+    ops:["paroxítona","oxítona","proparoxítona","polissílaba"],
+    certa:"paroxítona",
+    exp:"Paroxítona tem a força na penúltima sílaba: JÚ-ri."}
+  ]
+ },
+ {
+  id:"b7", cor:"cor7", emoji:"🎵", titulo:"Parada 7 — Monossílabos e Acentos",
+  texto:`<p>Os <b>monossílabos</b> (palavras de 1 sílaba) podem ser:</p>
+  <p>🔊 <b>Monossílabos tônicos</b>: falados com <b>força</b>. Ex.: <b>mês</b>, <b>faz</b>, <b>sol</b>.</p>
+  <p>🔈 <b>Monossílabos átonos</b>: falados <b>fraquinho</b>. Ex.: <b>de</b>, <b>o</b>, <b>um</b>, <b>me</b>.</p>
+  <p>Os monossílabos tônicos terminados em <b>a/as</b>, <b>e/es</b> e <b>o/os</b> recebem <b>acento</b>. Ex.:
+  <b>pá</b>, <b>pé</b>, <b>pó</b>, <b>fé</b>, <b>lê</b>, <b>chá</b>, <b>já</b>, <b>só</b>.</p>
+  <p>As palavras <b>oxítonas</b> também recebem acento (agudo ou circunflexo) quando terminam em: <b>a/as</b>
+  (cajá, fubá), <b>o/os</b> (cipó, avós), <b>e/es</b> (você, vocês) e <b>em/ens</b> (vintém, parabéns).</p>`,
+  conceitos:"⭐ Monossílabo tônico = forte (mês, sol); átono = fraco (de, o, me). Tônicos terminados em a/e/o levam acento: pá, pé, pó. Oxítonas levam acento quando terminam em a(s), e(s), o(s), em/ens: cajá, você, parabéns.",
+  perguntas:[
+   {q:"Qual é um monossílabo tônico (falado com força)?",
+    ops:["sol","de","me","um"],
+    certa:"sol",
+    exp:"'Sol' é falado com força: é monossílabo tônico. 'De', 'me' e 'um' são átonos (fraquinhos)."},
+   {q:"O monossílabo 'pe' (parte do corpo) deve ser escrito...",
+    ops:["pé, com acento","pe, sem acento","pér, com erre","ppé"],
+    certa:"pé, com acento",
+    exp:"É monossílabo tônico terminado em -e: leva acento, 'pé'."},
+   {q:"A palavra oxítona 'parabens' deve ser escrita...",
+    ops:["parabéns, com acento","parabens, sem acento","parabêns, com circunflexo","párabens"],
+    certa:"parabéns, com acento",
+    exp:"Oxítona terminada em -ens leva acento agudo no E: parabéns."}
+  ]
+ }
+];
+
+const PEGADINHAS = [
+ "O <b>classificado</b> tem descrição <b>BREVE</b> (curta) — não é um texto longo.",
+ "O <b>adjetivo</b> combina em <b>gênero E número</b> com o substantivo: 'sementes <b>coloridas</b>', não 'coloridos'.",
+ "'Homem <b>grande</b>' (tamanho) ≠ '<b>grande</b> homem' (importante) — a <b>posição</b> muda o sentido.",
+ "Adjetivos <b>invariáveis</b> (grande, enorme, inteligente) têm <b>UMA forma só</b> para fem e masc.",
+ "O <b>adjetivo pátrio</b> diz <b>DE ONDE</b> a pessoa nasceu: cearense, francês, alemão.",
+ "<b>C</b> tem som de K antes de <b>A, O, U</b>; <b>QU</b> tem som de K antes de <b>E e I</b>.",
+ "No <b>QU antes de E/I</b> o U <b>NÃO</b> é pronunciado (que, qui); antes de <b>A</b> o U é pronunciado (quadro).",
+ "<b>Oxítona</b> = força na ÚLTIMA; <b>paroxítona</b> = PENÚLTIMA; <b>proparoxítona</b> = ANTEPENÚLTIMA.",
+ "TODA <b>proparoxítona</b> é acentuada (lâmpada, árvore, matemática).",
+ "Monossílabo <b>tônico</b> terminado em <b>a/e/o</b> leva acento: pá, pé, pó."
+];
+
+const COBERTURA = [
+ ["📋 Classificado / anúncio (gênero)", "Parada 1"],
+ ["🎨 Adjetivos (gênero e número, posição)", "Parada 2"],
+ ["🌍 Adjetivos pátrios", "Parada 3"],
+ ["🥁 Uso de C ou QU", "Parada 4"],
+ ["👣 Número de sílabas (mono/di/tri/poli)", "Parada 5"],
+ ["🔊 Oxítona, paroxítona e proparoxítona", "Parada 6"],
+ ["🎵 Monossílabos tônicos e acentuação", "Parada 7"]
+];
+
+/* ===================== SIMULADO (25) ===================== */
+const SIMULADO = [
+ {q:"O classificado (anúncio) é um texto curto que serve para:",
+  ops:["procurar, vender, comprar ou oferecer algo","contar uma história de fadas","ensinar uma receita","narrar um sonho"], certa:"procurar, vender, comprar ou oferecer algo",
+  exp:"O classificado anuncia algo: serve para procurar, vender, comprar ou oferecer."},
+ {q:"Hoje em dia, os classificados aparecem MAIS:",
+  ops:["na internet, em sites e aplicativos","só em jornais de papel","em livros de contos","em nenhum lugar"], certa:"na internet, em sites e aplicativos",
+  exp:"Os classificados passaram do jornal de papel para o mundo digital (sites e aplicativos)."},
+ {q:"Uma característica do classificado é ter:",
+  ops:["descrição breve, às vezes com abreviações e telefone","um texto bem longo e sem contato","só desenhos e nenhuma palavra","uma lição de moral no fim"], certa:"descrição breve, às vezes com abreviações e telefone",
+  exp:"Como o espaço é pequeno, o classificado traz descrição curta, abreviações e telefone de contato."},
+ {q:"No livro, o Texto 1 'Procura-se um equilibrista' é um anúncio em forma de:",
+  ops:["poema","receita","notícia","bilhete de banco"], certa:"poema",
+  exp:"O Texto 1 é um classificado poético: um anúncio escrito em forma de poema."},
+ {q:"O adjetivo é a palavra que mostra:",
+  ops:["uma característica do substantivo","uma ação","um lugar","uma quantidade exata"], certa:"uma característica do substantivo",
+  exp:"O adjetivo indica a característica (qualidade) do substantivo."},
+ {q:"Na frase 'feijões coloridos e brilhantes', as palavras 'coloridos' e 'brilhantes' são:",
+  ops:["adjetivos","substantivos","verbos","números"], certa:"adjetivos",
+  exp:"Elas descrevem os feijões, então são adjetivos."},
+ {q:"Se trocamos 'feijões' por 'sementes', os adjetivos ficam:",
+  ops:["coloridas e brilhantes (no feminino)","coloridos e brilhantes (no masculino)","sem mudança nenhuma","no plural só às vezes"], certa:"coloridas e brilhantes (no feminino)",
+  exp:"O adjetivo combina em gênero: 'sementes' é feminino, então os adjetivos vão para o feminino."},
+ {q:"Qual é um adjetivo invariável (uma forma só para feminino e masculino)?",
+  ops:["inteligente","bonito","alto","magro"], certa:"inteligente",
+  exp:"'Inteligente' não muda entre fem e masc: é invariável. Bonito/bonita muda."},
+ {q:"As frases 'um homem grande' e 'um grande homem' têm sentidos diferentes porque:",
+  ops:["a posição do adjetivo mudou","uma está errada","trocaram o substantivo","uma tem acento"], certa:"a posição do adjetivo mudou",
+  exp:"'Homem grande' fala de tamanho; 'grande homem', de importância. A posição mudou o sentido."},
+ {q:"O adjetivo pátrio indica:",
+  ops:["o lugar de origem da pessoa","a idade da pessoa","a cor da roupa","o nome do animal"], certa:"o lugar de origem da pessoa",
+  exp:"O adjetivo pátrio diz de onde a pessoa nasceu: cearense, francês, alemão."},
+ {q:"Quem nasce no Ceará é:",
+  ops:["cearense","pernambucano","alemão","francês"], certa:"cearense",
+  exp:"Quem nasce no Ceará é cearense."},
+ {q:"Quem nasce na Alemanha é:",
+  ops:["alemão","francês","cearense","inglês"], certa:"alemão",
+  exp:"Quem nasce na Alemanha é alemão."},
+ {q:"A letra C tem som de K antes das vogais:",
+  ops:["A, O e U","E e I","só o E","todas as vogais"], certa:"A, O e U",
+  exp:"C tem som de K antes de A, O e U (casa, copo, cuca)."},
+ {q:"O som de K antes de E e I é escrito com:",
+  ops:["QU (que, qui)","C (ce, ci)","S","X"], certa:"QU (que, qui)",
+  exp:"Antes de E e I, o som de K vira QU: queijo, quilo."},
+ {q:"A palavra 'pequi' é escrita com QU porque:",
+  ops:["o som de K vem antes do I","é uma fruta","tem acento","é curta"], certa:"o som de K vem antes do I",
+  exp:"O som de K antes de I se escreve com QU: pequi."},
+ {q:"No dígrafo QU antes de E e I, a letra U:",
+  ops:["não é pronunciada","é pronunciada bem forte","vira O","desaparece da escrita"], certa:"não é pronunciada",
+  exp:"No QU antes de E/I (que, qui) o U não é pronunciado. Já antes de A (quadro) o U é pronunciado."},
+ {q:"A palavra 'sol' tem 1 sílaba, por isso ela é:",
+  ops:["monossílaba","dissílaba","trissílaba","polissílaba"], certa:"monossílaba",
+  exp:"1 sílaba = monossílaba (sol, pé, flor)."},
+ {q:"A palavra 'janela' (ja-ne-la) é:",
+  ops:["trissílaba","monossílaba","dissílaba","polissílaba"], certa:"trissílaba",
+  exp:"'Janela' tem 3 sílabas: trissílaba."},
+ {q:"A palavra 'computador' (com-pu-ta-dor) é:",
+  ops:["polissílaba","trissílaba","dissílaba","monossílaba"], certa:"polissílaba",
+  exp:"'Computador' tem 4 sílabas: polissílaba (4 ou mais)."},
+ {q:"A palavra 'café' tem a força na última sílaba. Ela é:",
+  ops:["oxítona","paroxítona","proparoxítona","átona"], certa:"oxítona",
+  exp:"Força na última sílaba (ca-FÉ): oxítona."},
+ {q:"A palavra 'lâmpada' tem a força na antepenúltima sílaba. Ela é:",
+  ops:["proparoxítona (sempre acentuada)","oxítona","paroxítona","monossílaba"], certa:"proparoxítona (sempre acentuada)",
+  exp:"Força na antepenúltima (LÂM-pa-da): proparoxítona, e toda proparoxítona tem acento."},
+ {q:"A palavra 'júri' tem a força na penúltima sílaba. Ela é:",
+  ops:["paroxítona","oxítona","proparoxítona","polissílaba"], certa:"paroxítona",
+  exp:"Força na penúltima (JÚ-ri): paroxítona."},
+ {q:"O monossílabo tônico terminado em -e, como em 'pe' (do corpo), se escreve:",
+  ops:["pé, com acento","pe, sem acento","pér","pêe"], certa:"pé, com acento",
+  exp:"Monossílabo tônico terminado em -e leva acento: pé."},
+ {q:"Na lenda 'Por que a cobra muda de pele', quem deveria levar o cesto com as novas peles para o homem era:",
+  ops:["o cachorro","a cobra","a galinha","o gigante"], certa:"o cachorro",
+  exp:"Deus pediu ao cachorro que levasse o cesto com as peles até o homem."},
+ {q:"Na lenda, quem pegou o cesto e passou a trocar de pele quando envelhece foi:",
+  ops:["a cobra","o cachorro","o homem","a árvore"], certa:"a cobra",
+  exp:"A cobra pegou o cesto escondido; por isso ela troca de pele quando envelhece."}
+];
+
+/* ===================== MAPA MENTAL (7 cartões) ===================== */
+const MAPA = [
+ {id:"m1", cor:"cor1", emoji:"📋", titulo:"Mural do Oásis (Classificado)",
+  resumo:"O classificado (anúncio) é um texto curto para procurar, vender, comprar ou oferecer algo.",
+  mais:["Tem <b>descrição breve</b>, às vezes <b>abreviações</b> e <b>telefone</b>.","Antes era no jornal de papel; hoje aparece muito na <b>internet</b>.","O Texto 1 do livro é um anúncio em forma de <b>poema</b>."],
+  q:"O classificado serve para...", ops:["procurar, vender ou oferecer algo","contar uma fábula","dar uma notícia"], certa:"procurar, vender ou oferecer algo",
+  exp:"O classificado anuncia algo: procurar, vender, comprar ou oferecer."},
+ {id:"m2", cor:"cor2", emoji:"🎨", titulo:"Cores da Savana (Adjetivos)",
+  resumo:"O adjetivo mostra a característica do substantivo e combina com ele em gênero e número.",
+  mais:["Invariáveis: <b>grande, enorme, inteligente</b> (uma forma só).","'Feijões coloridos' → 'sementes coloridas' (muda o gênero).","A posição muda o sentido: homem grande ≠ grande homem."],
+  q:"O adjetivo mostra o quê do substantivo?", ops:["uma característica","uma ação","um número"], certa:"uma característica",
+  exp:"O adjetivo mostra a característica (qualidade) do substantivo."},
+ {id:"m3", cor:"cor3", emoji:"🌍", titulo:"De Onde Você Vem (Pátrios)",
+  resumo:"O adjetivo pátrio indica o lugar de origem da pessoa.",
+  mais:["cearense (Ceará), pernambucano (Pernambuco).","francês (França), alemão (Alemanha).","inglês (Inglaterra), europeu (Europa), londrino (Londres)."],
+  q:"Quem nasce em Pernambuco é...", ops:["pernambucano","cearense","alemão"], certa:"pernambucano",
+  exp:"Quem nasce em Pernambuco é pernambucano."},
+ {id:"m4", cor:"cor4", emoji:"🥁", titulo:"Trilha do Som K (C ou QU)",
+  resumo:"C e QU podem ter o som de K.",
+  mais:["<b>C</b> com som de K antes de <b>A, O, U</b> (casa, copo, cuca).","<b>QU</b> com som de K antes de <b>E, I</b> (queijo, quilo, pequi).","No QU antes de E/I o U não é pronunciado."],
+  q:"Antes de E e I, o som de K é escrito com...", ops:["QU","C","S"], certa:"QU",
+  exp:"Antes de E e I usamos QU (que, qui)."},
+ {id:"m5", cor:"cor5", emoji:"👣", titulo:"Passos da Palavra (Sílabas)",
+  resumo:"As palavras se classificam pelo número de sílabas.",
+  mais:["Monossílaba = 1 (sol). Dissílaba = 2 (casa).","Trissílaba = 3 (menino). Polissílaba = 4+ (borboleta).","É só contar os 'passos' (sílabas) da palavra."],
+  q:"'Sol' tem 1 sílaba, então é...", ops:["monossílaba","dissílaba","trissílaba"], certa:"monossílaba",
+  exp:"1 sílaba = monossílaba."},
+ {id:"m6", cor:"cor6", emoji:"🔊", titulo:"Batida Mais Forte (Tonicidade)",
+  resumo:"A sílaba tônica é a mais forte. Pela posição dela: oxítona, paroxítona ou proparoxítona.",
+  mais:["Oxítona = força na última (café, limão).","Paroxítona = força na penúltima (júri, caráter).","Proparoxítona = força na antepenúltima e sempre tem acento (lâmpada, árvore)."],
+  q:"'Lâmpada' tem a força na antepenúltima. É...", ops:["proparoxítona","oxítona","paroxítona"], certa:"proparoxítona",
+  exp:"Força na antepenúltima = proparoxítona (e sempre tem acento)."},
+ {id:"m7", cor:"cor7", emoji:"🎵", titulo:"Monossílabos e Acentos",
+  resumo:"Monossílabo tônico é forte (sol); átono é fraco (de). Alguns levam acento.",
+  mais:["Monossílabo tônico terminado em a/e/o leva acento: pá, pé, pó.","Oxítona leva acento se termina em a(s), o(s), e(s), em/ens.","Ex.: cajá, cipó, você, parabéns."],
+  q:"O monossílabo tônico 'po' (sujeira) se escreve...", ops:["pó, com acento agudo","po, sem acento","pô, com circunflexo"], certa:"pó, com acento agudo",
+  exp:"Monossílabo tônico terminado em -o leva acento agudo: pó."}
+];
+const RESUMAO = ["Classificado","Anúncio","Descrição breve","Adjetivo","Gênero e número","Invariável","Adjetivo pátrio","cearense","C antes de A,O,U","QU antes de E,I","Monossílaba","Dissílaba","Trissílaba","Polissílaba","Oxítona","Paroxítona","Proparoxítona","Sílaba tônica","Monossílabo tônico","Acento"];
+
+/* ===================== VERDADEIRO OU FALSO (24 frases) ===================== */
+const VF = [
+ {f:"O classificado é um texto curto para procurar, vender ou oferecer algo.", v:true, exp:"Certo! O classificado (anúncio) anuncia algo de forma curta."},
+ {f:"Hoje a maioria dos classificados aparece só em jornais de papel.", v:false, exp:"Falso! Hoje eles aparecem muito na internet, em sites e aplicativos."},
+ {f:"O classificado costuma ter descrição breve e, às vezes, abreviações.", v:true, exp:"Certo! Como o espaço é pequeno, a descrição é curta e usam-se abreviações."},
+ {f:"O adjetivo mostra uma característica do substantivo.", v:true, exp:"Certo! Ex.: feijões coloridos, brilhantes e vistosos."},
+ {f:"O adjetivo NÃO precisa combinar com o substantivo.", v:false, exp:"Falso! O adjetivo combina em gênero e número com o substantivo."},
+ {f:"'Sementes coloridas' está certo, porque o adjetivo foi para o feminino.", v:true, exp:"Certo! 'Sementes' é feminino, então 'coloridas' também fica no feminino."},
+ {f:"'Inteligente' é um adjetivo invariável (uma forma só para fem e masc).", v:true, exp:"Certo! Serve para menino inteligente e menina inteligente."},
+ {f:"'Homem grande' e 'grande homem' querem dizer exatamente a mesma coisa.", v:false, exp:"Falso! A posição do adjetivo muda o sentido: tamanho x importância."},
+ {f:"O adjetivo pátrio indica o lugar de origem da pessoa.", v:true, exp:"Certo! Ex.: cearense, francês, alemão."},
+ {f:"Quem nasce na França é alemão.", v:false, exp:"Falso! Quem nasce na França é francês."},
+ {f:"Quem nasce no Ceará é cearense.", v:true, exp:"Certo! Esse é o adjetivo pátrio do Ceará."},
+ {f:"A letra C tem som de K antes de A, O e U.", v:true, exp:"Certo! Casa, copo, cuca."},
+ {f:"Antes de E e I, o som de K é escrito com C.", v:false, exp:"Falso! Antes de E e I usamos QU (que, qui). C antes de E/I teria som de S."},
+ {f:"A palavra 'pequi' é escrita com QU porque o som de K vem antes do I.", v:true, exp:"Certo! Por isso é pequi, e não 'peci'."},
+ {f:"No QU antes de E e I, a letra U é pronunciada bem forte.", v:false, exp:"Falso! No QU antes de E/I o U NÃO é pronunciado."},
+ {f:"Uma palavra monossílaba tem apenas 1 sílaba.", v:true, exp:"Certo! Ex.: sol, pé, flor."},
+ {f:"'Borboleta' é uma palavra dissílaba.", v:false, exp:"Falso! 'Borboleta' tem 4 sílabas: é polissílaba."},
+ {f:"'Menino' (me-ni-no) é uma palavra trissílaba.", v:true, exp:"Certo! Tem 3 sílabas."},
+ {f:"A sílaba tônica é a sílaba mais forte da palavra.", v:true, exp:"Certo! É a que falamos com mais força."},
+ {f:"A palavra 'café' é paroxítona.", v:false, exp:"Falso! 'Café' tem a força na última sílaba: é oxítona."},
+ {f:"Toda palavra proparoxítona é acentuada.", v:true, exp:"Certo! Lâmpada, árvore, matemática — sempre têm acento."},
+ {f:"'Lâmpada' tem a força na última sílaba.", v:false, exp:"Falso! A força é na antepenúltima (LÂM-pa-da): é proparoxítona."},
+ {f:"O monossílabo 'sol' é tônico (falado com força).", v:true, exp:"Certo! 'Sol' é monossílabo tônico."},
+ {f:"O monossílabo tônico 'pe' (do corpo) é escrito sem acento.", v:false, exp:"Falso! Leva acento: pé."}
+];
+const VF_POR_RODADA = 12;
+
+/* ===================== RESUMO (trilha, glossário, dicas, relâmpago) ===================== */
+const TIMELINE = [
+ ["Parada 1","No Mural do Oásis você aprende o que é um classificado (anúncio): um texto curto para procurar, vender ou oferecer algo."],
+ ["Parada 2","Nas Cores da Savana, os adjetivos mostram as características dos substantivos e combinam em gênero e número."],
+ ["Parada 3","Em De Onde Você Vem, os adjetivos pátrios dizem o lugar de origem: cearense, francês, alemão."],
+ ["Parada 4","Na Trilha do Som K, use C antes de A, O, U e QU antes de E e I."],
+ ["Parada 5","Nos Passos da Palavra, conte as sílabas: mono (1), di (2), tri (3) e poli (4 ou mais)."],
+ ["Parada 6","Na Batida Mais Forte, ache a sílaba tônica: oxítona (última), paroxítona (penúltima) ou proparoxítona (antepenúltima)."],
+ ["Parada 7","Em Monossílabos e Acentos, descubra quando pôr o acento nos monossílabos tônicos e nas oxítonas."]
+];
+const GLOSSARIO = [
+ ["Classificado","Texto curto para procurar, vender, comprar ou oferecer algo."],
+ ["Anúncio","Outro nome do classificado; divulga algo para outras pessoas."],
+ ["Adjetivo","Palavra que mostra a característica do substantivo."],
+ ["Gênero","Feminino ou masculino."],
+ ["Número","Singular (um) ou plural (vários)."],
+ ["Adjetivo invariável","Tem uma forma só (grande, enorme, inteligente)."],
+ ["Adjetivo pátrio","Indica o lugar de origem: cearense, francês, alemão."],
+ ["C ou QU","C tem som de K antes de A, O, U; QU antes de E e I."],
+ ["Sílaba tônica","A sílaba mais forte da palavra."],
+ ["Oxítona","Força na última sílaba (café, limão)."],
+ ["Paroxítona","Força na penúltima sílaba (júri, caráter)."],
+ ["Proparoxítona","Força na antepenúltima; sempre acentuada (lâmpada, árvore)."],
+ ["Monossílabo tônico","Palavra de 1 sílaba falada com força (sol, mês, pé)."]
+];
+const RELAMPAGO = [
+ ["O que é um classificado?","Um texto curto para procurar, vender, comprar ou oferecer algo."],
+ ["O adjetivo combina com o substantivo em quê?","Em gênero (fem/masc) e número (sing/plural)."],
+ ["Quem nasce na Alemanha é...?","Alemão."],
+ ["Antes de E e I, o som de K é escrito como?","QU (que, qui)."],
+ ["Quantas sílabas tem uma palavra trissílaba?","Três (ex.: me-ni-no)."],
+ ["A proparoxítona sempre tem o quê?","Acento (ex.: lâmpada, árvore)."]
+];
+const RELAMPAGO_LENDA = [
+ ["De onde é a lenda 'Por que a cobra muda de pele'?","É uma lenda tradicional de Serra Leoa, na África Ocidental."],
+ ["O que Deus prometeu ao ser humano?","Novas peles, para vestir quando o corpo envelhecesse e enganar a morte."],
+ ["Por que o cachorro não entregou o cesto?","Ele parou numa festa, comeu e cochilou — e a cobra pegou o cesto."],
+ ["Por que a cobra troca de pele, segundo a lenda?","Porque ficou com o cesto das peles e o usa quando envelhece."]
+];
+
+/* ===================== NAVEGAÇÃO ===================== */
+function irPara(tela){
+  document.querySelectorAll('nav.abas button').forEach(b=>b.classList.toggle('ativa', b.dataset.tela===tela));
+  document.querySelectorAll('section.tela').forEach(s=>s.classList.toggle('ativa', s.id===tela));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('nav.abas button').forEach(b=>b.addEventListener('click',()=>irPara(b.dataset.tela)));
+document.querySelectorAll('.passo').forEach(p=>p.addEventListener('click',()=>irPara(p.dataset.ir)));
+
+/* ===================== EMBARALHAR (semente fixa por questão) ===================== */
+function semente(str){ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function embaralhaOps(ops, sementeStr){
+  let seed = semente(sementeStr) || 1;
+  const rand=()=>{ seed^=seed<<13; seed>>>=0; seed^=seed>>>17; seed^=seed<<5; seed>>>=0; return seed/4294967296; };
+  rand(); rand(); rand();
+  const arr = ops.map((t,i)=>({t,i}));
+  for(let i=arr.length-1;i>0;i--){ const j=Math.floor(rand()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
+  return arr;
+}
+const LETRAS=['A','B','C','D'];
+
+/* ===================== LEITURA GUIADA ===================== */
+function renderLeitura(){
+  const cont=document.getElementById('blocos'); cont.innerHTML='';
+  BLOCOS.forEach((bl,idx)=>{
+    const st = estado.leitura[bl.id] = estado.leitura[bl.id] || {resp:{},conferido:false};
+    st.resp = st.resp || {};
+    const anteriorOk = idx===0 ? true : (estado.leitura[BLOCOS[idx-1].id] && estado.leitura[BLOCOS[idx-1].id].conferido);
+    const bloqueado = !anteriorOk && !st.conferido;
+    const div=document.createElement('div');
+    div.className='bloco'+(bloqueado?' bloqueado':'')+(st.conferido?' aberto':(idx===0||anteriorOk?' aberto':''));
+    div.id='bloco-'+bl.id;
+    let perg='';
+    bl.perguntas.forEach((p,pi)=>{
+      const escolha = st.resp[pi];
+      const ordem = embaralhaOps(p.ops,'leit'+bl.id+pi+p.q);
+      let ops='';
+      ordem.forEach((o,pos)=>{
+        let cls='opcao';
+        if(st.conferido){
+          if(o.t===p.certa) cls+=' correta';
+          else if(o.t===escolha) cls+=' errada';
+        }else if(escolha===o.t){ cls+=' marcada'; }
+        ops+=`<button class="${cls}" data-txt="${encodeURIComponent(o.t)}" onclick="escolheLeitura('${bl.id}',${pi},'${encodeURIComponent(o.t)}',this)">
+          <span class="letra">${LETRAS[pos]}</span>${o.t}</button>`;
+      });
+      let expHtml='';
+      if(st.conferido){
+        const acertou = escolha===p.certa;
+        expHtml=`<div class="explica mostra">${acertou?'✅ <b>Acertou!</b> ':'❌ <b>A resposta certa é:</b> '+p.certa+'. '}${p.exp}</div>`;
+      }
+      perg += `<div class="pergunta" id="p-${bl.id}-${pi}">
+        <div class="rotulo">${pi+1}. ${p.q}</div>
+        ${ops}
+        ${expHtml}
+      </div>`;
+    });
+    div.innerHTML = `
+      <div class="bloco-cab ${bl.cor}" onclick="toggleBloco('${bl.id}',${bloqueado})">
+        <span>${bl.emoji} ${bl.titulo}</span><span>${bloqueado?'🔒':(st.conferido?'✅':'▼')}</span>
+      </div>
+      <div class="bloco-corpo">
+        ${bloqueado?'<p>🔒 Termine a parada anterior para abrir esta.</p>':''}
+        <div class="texto-leitura">${bl.texto}</div>
+        <div class="conceitos">${bl.conceitos}</div>
+        ${perg}
+        <div style="text-align:center;margin-top:10px">
+          <button class="btn roxo" onclick="conferirBloco('${bl.id}')" ${bloqueado?'disabled style=\"opacity:.5\"':''}>Conferir ✅</button>
+        </div>
+        <div class="status-bloco ${st.conferido?statusClasse(bl.id):''}" id="status-${bl.id}">${st.conferido?statusTexto(bl.id):''}</div>
+      </div>`;
+    cont.appendChild(div);
+  });
+  atualizaProgressoLeitura();
+}
+function contaAcertosBloco(bid){
+  const st=estado.leitura[bid]; const bl=BLOCOS.find(b=>b.id===bid);
+  let ac=0;
+  bl.perguntas.forEach((p,pi)=>{ if(st.resp && st.resp[pi]===p.certa) ac++; });
+  return ac;
+}
+function statusClasse(bid){
+  const bl=BLOCOS.find(b=>b.id===bid);
+  return contaAcertosBloco(bid)===bl.perguntas.length ? 'ok':'rev';
+}
+function statusTexto(bid){
+  const bl=BLOCOS.find(b=>b.id===bid);
+  const ac=contaAcertosBloco(bid);
+  return ac===bl.perguntas.length
+    ? '✅ Muito bem! Você acertou as '+bl.perguntas.length+' perguntas desta parada.'
+    : '🔁 Você acertou '+ac+' de '+bl.perguntas.length+'. Veja as respostas certas em verde e siga em frente!';
+}
+function toggleBloco(bid,bloq){
+  if(bloq) return;
+  document.getElementById('bloco-'+bid).classList.toggle('aberto');
+}
+function escolheLeitura(bid,pi,txtEnc,el){
+  const st=estado.leitura[bid];
+  if(st.conferido) return;
+  st.resp=st.resp||{}; st.resp[pi]=decodeURIComponent(txtEnc);
+  const pel=document.getElementById('p-'+bid+'-'+pi);
+  if(pel) pel.querySelectorAll('.opcao').forEach(o=>o.classList.remove('marcada'));
+  el.classList.add('marcada');
+  salvar();
+}
+function conferirBloco(bid){
+  const bl=BLOCOS.find(b=>b.id===bid); const st=estado.leitura[bid];
+  st.resp=st.resp||{};
+  for(let pi=0;pi<bl.perguntas.length;pi++){
+    if(!st.resp[pi]){ modal("Falta pouco! 😊","Clique em uma resposta nas 3 perguntas antes de conferir."); return; }
+  }
+  st.conferido=true;
+  salvar();
+  renderLeitura();
+  setTimeout(()=>{
+    const at=document.getElementById('bloco-'+bid); if(at) at.classList.add('aberto');
+    const idx=BLOCOS.findIndex(b=>b.id===bid);
+    if(idx+1<BLOCOS.length){ const nx=document.getElementById('bloco-'+BLOCOS[idx+1].id); if(nx){nx.classList.add('aberto'); nx.scrollIntoView({behavior:'smooth'});} }
+    else { document.getElementById('fim-leitura').style.display='block'; document.getElementById('fim-leitura').scrollIntoView({behavior:'smooth'}); }
+    verificaFimLeitura();
+  },120);
+}
+function atualizaProgressoLeitura(){
+  const total=BLOCOS.length;
+  const feitos=BLOCOS.filter(b=>estado.leitura[b.id] && estado.leitura[b.id].conferido).length;
+  const pct=Math.round(feitos/total*100);
+  const barra=document.getElementById('barra-leitura'); if(barra) barra.style.width=pct+'%';
+  const est=document.getElementById('estrelas-leitura');
+  if(est){ let s=''; for(let i=0;i<total;i++) s+= i<feitos?'⭐':'☆'; est.textContent=s; }
+  verificaFimLeitura();
+}
+function verificaFimLeitura(){
+  const todos=BLOCOS.every(b=>estado.leitura[b.id] && estado.leitura[b.id].conferido);
+  if(todos){ document.getElementById('fim-leitura').style.display='block'; atualizaParaRevisar(); }
+}
+function atualizaParaRevisar(){
+  const alvo=document.getElementById('para-revisar'); if(!alvo) return;
+  let itens=[];
+  BLOCOS.forEach(bl=>{
+    const st=estado.leitura[bl.id]; if(!st || !st.conferido) return;
+    bl.perguntas.forEach((p,pi)=>{
+      if(st.resp && st.resp[pi]!==p.certa)
+        itens.push(`🔁 <b>${bl.titulo}</b> — pergunta ${pi+1}: a resposta certa é "${p.certa}".`);
+    });
+  });
+  alvo.innerHTML = itens.length? '<ul>'+itens.map(i=>'<li>'+i+'</li>').join('')+'</ul>' : 'Nada por aqui ainda — ótimo trabalho! 🌟';
+}
+
+/* ===================== SIMULADO ===================== */
+function renderSimulado(){
+  const cont=document.getElementById('sim-qs'); cont.innerHTML='';
+  SIMULADO.forEach((q,qi)=>{
+    const ordem=embaralhaOps(q.ops,'sim'+qi+q.q);
+    const escolha=estado.simulado.resp[qi];
+    let ops='';
+    ordem.forEach((o,pos)=>{
+      const marc = escolha===o.t ? 'marcada':'';
+      ops+=`<button class="opcao ${marc}" data-txt="${encodeURIComponent(o.t)}" onclick="escolheSim(${qi},'${encodeURIComponent(o.t)}',this)">
+        <span class="letra">${LETRAS[pos]}</span>${o.t}</button>`;
+    });
+    cont.innerHTML+=`<div class="q-card" id="sim-c-${qi}">
+      <div class="q-enunciado">${qi+1}. ${q.q}</div>${ops}
+      <div class="explica" id="sim-e-${qi}"></div></div>`;
+  });
+  atualizaBarra('simulado');
+}
+function escolheSim(qi,txtEnc,el){
+  if(estado.simulado.feito) return;
+  estado.simulado.resp[qi]=decodeURIComponent(txtEnc); salvar();
+  const card=document.getElementById('sim-c-'+qi);
+  card.querySelectorAll('.opcao').forEach(o=>o.classList.remove('marcada'));
+  el.classList.add('marcada');
+  atualizaBarra('simulado');
+}
+function corrigirSimulado(){
+  const naoResp=SIMULADO.filter((q,i)=>!estado.simulado.resp[i]).length;
+  if(naoResp>0){ modal("Quase lá! 😊","Ainda faltam "+naoResp+" questão(ões) sem resposta. Responda todas para corrigir."); return; }
+  let acertos=0;
+  SIMULADO.forEach((q,qi)=>{
+    const card=document.getElementById('sim-c-'+qi);
+    const esc=estado.simulado.resp[qi];
+    card.querySelectorAll('.opcao').forEach(o=>{
+      const txt=decodeURIComponent(o.dataset.txt);
+      o.onclick=null;
+      if(txt===q.certa) o.classList.add('correta');
+      else if(txt===esc) o.classList.add('errada');
+    });
+    if(esc===q.certa) acertos++;
+    const e=document.getElementById('sim-e-'+qi);
+    e.classList.add('mostra');
+    e.innerHTML=(esc===q.certa?'✅ <b>Acertou!</b> ':'❌ <b>A resposta certa é:</b> '+q.certa+'. ')+q.exp;
+  });
+  estado.simulado.feito=true; estado.simulado.acertos=acertos;
+  salvar();
+  mostraResultado(acertos,SIMULADO.length);
+}
+function mensagemFaixa(pct){
+  if(pct>=90) return "🏆 Uau! Você é um verdadeiro explorador das palavras!";
+  if(pct>=70) return "🌟 Muito bem! Você aprendeu bastante!";
+  if(pct>=50) return "💪 Bom trabalho! Revise as pegadinhas e você vai brilhar!";
+  return "🤗 Não desista! Volte à Leitura e ao Resumo, você vai conseguir!";
+}
+function mostraResultado(acertos,total){
+  const pct=Math.round(acertos/total*100);
+  const alvo=document.getElementById('sim-resultado');
+  let estrelas=''; const nEst=Math.round(pct/20); for(let i=0;i<5;i++) estrelas+= i<nEst?'⭐':'☆';
+  alvo.style.display='block';
+  alvo.innerHTML=`
+    <div class="trofeu">${pct>=70?'🏆':'🎈'}</div>
+    <div class="estrelas" style="font-size:1.8rem">${estrelas}</div>
+    <div class="nota">${acertos} / ${total}</div>
+    <p>Você acertou <b>${pct}%</b>!</p>
+    <p>${mensagemFaixa(pct)}</p>
+    <p style="font-size:.9rem;color:#6b6478">Quer conferir as respostas comentadas com um adulto?
+    Abra o <a href="gabarito.html">📋 Gabarito comentado</a>.</p>
+    <button class="btn pequeno" onclick="location.reload()">🔄 Recarregar página</button>`;
+  alvo.scrollIntoView({behavior:'smooth'});
+  atualizaBarra('simulado');
+}
+function atualizaBarra(tipo){
+  const est = estado[tipo];
+  const n = Object.keys(est.resp).filter(k=>est.resp[k]).length;
+  const barra=document.getElementById('barra-'+tipo);
+  if(barra) barra.style.width=Math.round(n/SIMULADO.length*100)+'%';
+}
+
+/* ===================== MAPA MENTAL ===================== */
+function renderMapa(){
+  document.getElementById('mm-timeline').innerHTML=TIMELINE.map(e=>`<div class="evento"><span class="ano">${e[0]}</span><br>${e[1]}</div>`).join('');
+  document.getElementById('mm-chips').innerHTML=RESUMAO.map(c=>`<span class="chip">${c}</span>`).join('');
+  const g=document.getElementById('mapa-grade'); g.innerHTML='';
+  MAPA.forEach(c=>{
+    const esc=estado.mapa.resp[c.id];
+    const ordem=embaralhaOps(c.ops,'mapa'+c.id+c.q);
+    let ops='';
+    ordem.forEach((o,pos)=>{
+      let cls='opcao';
+      if(esc){ if(o.t===c.certa) cls+=' correta'; else if(o.t===esc) cls+=' errada'; }
+      ops+=`<button class="${cls}" onclick="respondeMapa('${c.id}','${encodeURIComponent(o.t)}')"><span class="letra">${LETRAS[pos]}</span>${o.t}</button>`;
+    });
+    const fb = esc ? `<div class="explica mostra">${esc===c.certa?'✅ <b>Acertou!</b> ':'❌ <b>A resposta certa é:</b> '+c.certa+'. '}${c.exp}</div>` : '';
+    g.innerHTML+=`<div class="mm-card">
+      <div class="mm-cab ${c.cor}">${c.emoji} ${c.titulo}</div>
+      <div class="mm-corpo">
+        <p>${c.resumo}</p>
+        <button class="btn pequeno sol" onclick="document.getElementById('mais-${c.id}').classList.toggle('mostra')">🔎 Ver mais</button>
+        <div class="mm-mais" id="mais-${c.id}"><ul>${c.mais.map(m=>'<li>'+m+'</li>').join('')}</ul></div>
+        <div class="pergunta"><div class="rotulo">⚡ Mini-quiz: ${c.q}</div>${ops}${fb}</div>
+      </div></div>`;
+  });
+}
+function respondeMapa(id,txtEnc){
+  if(estado.mapa.resp[id]) return;
+  estado.mapa.resp[id]=decodeURIComponent(txtEnc);
+  salvar(); renderMapa();
+}
+
+/* ===================== VERDADEIRO OU FALSO ===================== */
+let rodadaVF=null;
+function sorteiaRodada(){
+  const embar=a=>{ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; };
+  const vs=embar(VF.filter(x=>x.v)).slice(0,VF_POR_RODADA/2);
+  const fs=embar(VF.filter(x=>!x.v)).slice(0,VF_POR_RODADA/2);
+  return embar(vs.concat(fs));
+}
+function novaRodadaVF(){
+  rodadaVF={frases:sorteiaRodada(), atual:0, acertos:0, respondeu:false};
+  document.getElementById('vf-jogo').style.display='block';
+  document.getElementById('vf-resultado').style.display='none';
+  mostraFraseVF();
+}
+function mostraFraseVF(){
+  const r=rodadaVF; const fr=r.frases[r.atual];
+  document.getElementById('vf-frase').textContent='“'+fr.f+'”';
+  document.getElementById('vf-contador').textContent='Frase '+(r.atual+1)+' de '+r.frases.length+' • Acertos: '+r.acertos;
+  document.getElementById('barra-vf').style.width=Math.round(r.atual/r.frases.length*100)+'%';
+  const ex=document.getElementById('vf-explica'); ex.classList.remove('mostra'); ex.innerHTML='';
+  document.getElementById('vf-bv').disabled=false; document.getElementById('vf-bf').disabled=false;
+  document.getElementById('vf-prox').style.display='none';
+  r.respondeu=false;
+}
+function respondeVF(resp){
+  const r=rodadaVF; if(!r||r.respondeu) return;
+  r.respondeu=true;
+  const fr=r.frases[r.atual]; const certo=(resp===fr.v);
+  if(certo) r.acertos++;
+  const ex=document.getElementById('vf-explica');
+  ex.innerHTML=(certo?'🎉 <b>Você acertou!</b> ':'🤔 <b>Não foi dessa vez.</b> A frase é <b>'+(fr.v?'VERDADEIRA':'FALSA')+'</b>. ')+fr.exp;
+  ex.classList.add('mostra');
+  document.getElementById('vf-bv').disabled=true; document.getElementById('vf-bf').disabled=true;
+  const pb=document.getElementById('vf-prox');
+  pb.textContent = r.atual+1<r.frases.length ? 'Próxima frase ➡️' : 'Ver meu placar 🏆';
+  pb.style.display='inline-block';
+  document.getElementById('vf-contador').textContent='Frase '+(r.atual+1)+' de '+r.frases.length+' • Acertos: '+r.acertos;
+}
+function proximaVF(){
+  const r=rodadaVF;
+  if(r.atual+1<r.frases.length){ r.atual++; mostraFraseVF(); return; }
+  fimRodadaVF();
+}
+function fimRodadaVF(){
+  const r=rodadaVF; const total=r.frases.length; const pct=Math.round(r.acertos/total*100);
+  estado.vf.rodadas=(estado.vf.rodadas||0)+1;
+  estado.vf.ultima=r.acertos;
+  if(r.acertos>(estado.vf.melhor||0)) estado.vf.melhor=r.acertos;
+  salvar();
+  document.getElementById('barra-vf').style.width='100%';
+  let est=''; const n=Math.round(pct/20); for(let i=0;i<5;i++) est+= i<n?'⭐':'☆';
+  document.getElementById('vf-jogo').style.display='none';
+  const alvo=document.getElementById('vf-resultado'); alvo.style.display='block';
+  alvo.innerHTML=`<div class="trofeu">${pct>=70?'🏆':'🎈'}</div>
+    <div class="estrelas" style="font-size:1.8rem">${est}</div>
+    <div class="nota">${r.acertos} / ${total}</div>
+    <p>Você acertou <b>${pct}%</b>! ${mensagemFaixa(pct)}</p>
+    <p>🥇 Seu melhor placar: <b>${estado.vf.melhor} / ${total}</b></p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn sol" onclick="novaRodadaVF()">🔄 Jogar de novo</button>
+      <button class="btn roxo" onclick="irPara('simulado')">Quero fazer o Simulado 📝</button>
+    </div>`;
+  document.getElementById('vf-contador').textContent='Rodada terminada!';
+  alvo.scrollIntoView({behavior:'smooth'});
+}
+
+/* ===================== RESUMO ===================== */
+function renderResumo(){
+  document.getElementById('timeline').innerHTML=TIMELINE.map(e=>`<div class="evento"><span class="ano">${e[0]}</span><br>${e[1]}</div>`).join('');
+  document.getElementById('glossario').innerHTML=GLOSSARIO.map(g=>`<div class="verbete"><b>${g[0]}</b><br>${g[1]}</div>`).join('');
+  document.getElementById('dicas').innerHTML=PEGADINHAS.map(p=>`<div class="postit">💡 ${p}</div>`).join('');
+  document.getElementById('relampago').innerHTML=RELAMPAGO.map(r=>`<div class="relampago" onclick="this.classList.toggle('abre')"><b>❓ ${r[0]}</b><div class="resp">👉 ${r[1]}</div></div>`).join('');
+  document.getElementById('relampago-lenda').innerHTML=RELAMPAGO_LENDA.map(r=>`<div class="relampago" onclick="this.classList.toggle('abre')"><b>❓ ${r[0]}</b><div class="resp">👉 ${r[1]}</div></div>`).join('');
+}
+
+/* ===================== PEGADINHAS + COBERTURA ===================== */
+function renderFimLeitura(){
+  document.getElementById('pegadinhas').innerHTML=PEGADINHAS.map(p=>`<li style="margin:6px 0">${p}</li>`).join('');
+  document.getElementById('cobertura').innerHTML=
+    '<table style="width:100%;border-collapse:collapse">'+
+    COBERTURA.map(c=>`<tr><td style="padding:6px 8px;border-bottom:1px solid #eee">${c[0]}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #eee;text-align:right;color:#356B36;font-weight:bold">${c[1]}</td></tr>`).join('')+
+    '</table>';
+}
+
+/* ===================== RELATÓRIO PARA OS PAIS (PAIS-77) ===================== */
+function abrirPais(){
+  const cod=(document.getElementById('cod-pais').value||'').trim().toUpperCase();
+  if(cod==='PAIS-77'){
+    document.getElementById('cadeado-pais').style.display='none';
+    document.getElementById('relatorio-pais').classList.add('mostra');
+    renderRelatorio();
+  }else{
+    document.getElementById('erro-pais').textContent='Código incorreto. Tente o código da família: PAIS-77.';
+  }
+}
+function renderRelatorio(){
+  const alvo=document.getElementById('relatorio-pais');
+  let blocosOk=0, acertosLeit=0, totalPerg=0, erros=[];
+  BLOCOS.forEach(bl=>{
+    const st=estado.leitura[bl.id]; if(!st) return;
+    if(st.conferido) blocosOk++;
+    bl.perguntas.forEach((p,pi)=>{
+      totalPerg++;
+      if(st.conferido){
+        if(st.resp && st.resp[pi]===p.certa) acertosLeit++;
+        else if(st.resp && st.resp[pi]) erros.push(`${bl.titulo} — pergunta ${pi+1}`);
+      }
+    });
+  });
+  const mmResp=MAPA.filter(c=>estado.mapa.resp[c.id]).length;
+  const mmAc=MAPA.filter(c=>estado.mapa.resp[c.id]===c.certa).length;
+  let html=`<div class="rel-mat">
+    <h4>🗺️ Mapa Mental</h4>
+    Mini-quiz respondidos: <b>${mmResp} de ${MAPA.length}</b> • acertos: <b>${mmAc}</b>
+  </div>`;
+  html+=`<div class="rel-mat">
+    <h4>📖 Leitura Guiada</h4>
+    Paradas concluídas: <b>${blocosOk} de ${BLOCOS.length}</b><br>
+    Perguntas de fixação acertadas: <b>${acertosLeit} de ${totalPerg}</b>
+    ${erros.length?'<br>Perguntas erradas:<ul>'+erros.map(v=>'<li>'+v+'</li>').join('')+'</ul>':''}
+  </div>`;
+  html+=`<div class="rel-mat">
+    <h4>✅ Verdadeiro ou Falso</h4>
+    ${estado.vf.rodadas?`Rodadas jogadas: <b>${estado.vf.rodadas}</b><br>Melhor placar: <b>${estado.vf.melhor} de ${VF_POR_RODADA}</b> (${Math.round(estado.vf.melhor/VF_POR_RODADA*100)}%)<br>Última rodada: <b>${estado.vf.ultima} de ${VF_POR_RODADA}</b>`:'Ainda não jogou.'}
+  </div>`;
+  html+=`<div class="rel-mat">
+    <h4>📝 Simulado</h4>
+    ${estado.simulado.feito?`Resultado: <b>${estado.simulado.acertos} de ${SIMULADO.length}</b> (${Math.round(estado.simulado.acertos/SIMULADO.length*100)}%)`:'Ainda não foi feito.'}
+  </div>`;
+  html+=`<p style="font-size:.85rem;color:#6b6478">Dica: peça para o(a) estudante reler a parada das perguntas que errou e refazer até acertar todas. O gabarito comentado do simulado está no arquivo <b>gabarito.html</b>.</p>`;
+  alvo.innerHTML=html;
+}
+
+/* ===================== EXPORTAR / IMPORTAR / ZERAR ===================== */
+function exportar(){
+  const dados=JSON.stringify(estado,null,2);
+  const blob=new Blob([dados],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='meu_progresso_portugues_3ano_un10-11.json';
+  a.click();
+}
+function importar(ev){
+  const f=ev.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=e=>{ try{ estado=JSON.parse(e.target.result); salvar(); modal("Tudo certo! ✅","Seu progresso foi importado."); setTimeout(()=>location.reload(),900);}catch(x){ modal("Ops!","Não consegui ler esse arquivo."); } };
+  r.readAsText(f);
+}
+function zerarTudo(){
+  modalConfirma("Zerar tudo?","Isso apaga todas as suas respostas e recomeça do zero. Tem certeza?",()=>{
+    try{ localStorage.removeItem(CHAVE);}catch(e){}
+    memoria={}; location.reload();
+  });
+}
+
+/* ===================== MODAL ===================== */
+function modal(titulo,texto){
+  fecharModal();
+  const d=document.createElement('div'); d.id='modal-kit';
+  d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:999;padding:16px;';
+  d.innerHTML=`<div style="background:#fff;border-radius:20px;padding:22px;max-width:380px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.3)">
+    <h3 style="margin:.2em 0">${titulo}</h3><p>${texto}</p>
+    <button class="btn roxo" onclick="fecharModal()">Entendi 👍</button></div>`;
+  document.body.appendChild(d);
+}
+function modalConfirma(titulo,texto,cb){
+  fecharModal();
+  const d=document.createElement('div'); d.id='modal-kit';
+  d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:999;padding:16px;';
+  const box=document.createElement('div');
+  box.style.cssText='background:#fff;border-radius:20px;padding:22px;max-width:380px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.3)';
+  box.innerHTML=`<h3 style="margin:.2em 0">${titulo}</h3><p>${texto}</p>`;
+  const bs=document.createElement('div'); bs.style.cssText='display:flex;gap:8px;justify-content:center;margin-top:8px';
+  const sim=document.createElement('button'); sim.className='btn'; sim.style.background='#c98a8a'; sim.style.boxShadow='0 4px 0 #a76a6a'; sim.textContent='Sim, zerar';
+  const nao=document.createElement('button'); nao.className='btn roxo'; nao.textContent='Cancelar';
+  sim.onclick=()=>{fecharModal();cb();}; nao.onclick=fecharModal;
+  bs.appendChild(nao); bs.appendChild(sim); box.appendChild(bs); d.appendChild(box); document.body.appendChild(d);
+}
+function fecharModal(){ const m=document.getElementById('modal-kit'); if(m) m.remove(); }
+
+/* ===================== INÍCIO ===================== */
+function iniciar(){
+  renderMapa();
+  renderLeitura();
+  renderResumo();
+  novaRodadaVF();
+  renderSimulado();
+  renderFimLeitura();
+  if(estado.simulado.feito){ setTimeout(()=>reexibeCorrigido(),50); }
+  atualizaParaRevisar();
+  const info=document.getElementById('salvo-info');
+  if(info) info.textContent='Seu progresso é salvo automaticamente neste aparelho.';
+}
+function reexibeCorrigido(){
+  SIMULADO.forEach((q,qi)=>{
+    const card=document.getElementById('sim-c-'+qi); if(!card) return;
+    const esc=estado.simulado.resp[qi];
+    card.querySelectorAll('.opcao').forEach(o=>{
+      const txt=decodeURIComponent(o.dataset.txt); o.onclick=null;
+      if(txt===q.certa) o.classList.add('correta');
+      else if(txt===esc) o.classList.add('errada');
+    });
+    const e=document.getElementById('sim-e-'+qi);
+    if(e){ e.classList.add('mostra'); e.innerHTML=(esc===q.certa?'✅ <b>Acertou!</b> ':'❌ <b>A resposta certa é:</b> '+q.certa+'. ')+q.exp; }
+  });
+  mostraResultado(estado.simulado.acertos,SIMULADO.length);
+}
+window.addEventListener('DOMContentLoaded',iniciar);
+</script>
+</body>
+</html>

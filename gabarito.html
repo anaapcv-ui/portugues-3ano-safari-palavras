@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabarito comentado — Simulado de Português 3º ano (Un. 10 e 11)</title>
+<style>
+  :root{
+    --sav:#E8A020; --aca:#4E944F; --aca-esc:#356B36; --sol:#E8743B; --rio:#2E86AB; --rio-esc:#1F5F7D;
+    --fundo:#FBF6EC; --texto:#33302A; --cinza:#8A8578;
+    --sombra:0 6px 0 rgba(0,0,0,.07), 0 10px 25px rgba(0,0,0,.06);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Trebuchet MS','Segoe UI',system-ui,sans-serif;background:var(--fundo);color:var(--texto);line-height:1.6;}
+  header{background:linear-gradient(120deg,var(--aca),var(--rio));color:#fff;padding:24px 16px;text-align:center;border-bottom:6px solid var(--sav);}
+  header h1{margin:0;font-size:1.6rem;}
+  header p{margin:6px 0 0;opacity:.96;}
+  main{max-width:860px;margin:0 auto;padding:18px 14px 60px;}
+  .voltar{display:inline-block;margin:10px 0;background:var(--rio);color:#fff;text-decoration:none;font-weight:bold;padding:9px 16px;border-radius:12px;box-shadow:0 4px 0 var(--rio-esc);}
+  .cartao{background:#fff;border-radius:18px;padding:18px;margin:16px 0;box-shadow:var(--sombra);}
+  h2{font-size:1.3rem;color:var(--aca-esc);}
+  table.rapida{width:100%;border-collapse:collapse;font-size:.95rem;}
+  table.rapida td{border:1px solid #e7ddc6;padding:6px 8px;text-align:center;}
+  table.rapida td.n{background:#F4F0E6;font-weight:bold;width:40px;}
+  table.rapida td.r{color:var(--aca-esc);font-weight:bold;}
+  .item{border-bottom:1px solid #eee;padding:12px 0;}
+  .item:last-child{border-bottom:none;}
+  .pergunta{font-weight:bold;}
+  .certa{background:#E3F2D8;border-left:5px solid #5FA84E;border-radius:8px;padding:7px 12px;margin:7px 0;}
+  .porque{color:#555;font-size:.95rem;margin-top:4px;}
+  .dica{background:var(--sav);color:#4a3600;border-radius:10px;padding:10px 14px;margin:8px 0;box-shadow:2px 3px 8px rgba(0,0,0,.12);transform:rotate(-1deg);}
+  .rodape{text-align:center;color:var(--cinza);font-size:.9rem;padding:20px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>📋 Gabarito comentado — Simulado</h1>
+  <p>Português • 3º ano • Unidade 10 (Classificados) e Unidade 11 (Lendas da Mãe África)</p>
+  <p style="font-size:.9rem">Para conferir junto com um adulto 👨‍👩‍👧 • Prova: quinta-feira, 15/10</p>
+</header>
+<main>
+  <a class="voltar" href="index.html">⬅️ Voltar para o estudo</a>
+
+  <div class="cartao">
+    <h2>✅ Tabela rápida de respostas</h2>
+    <p style="font-size:.9rem;color:#6b6478">No simulado, a ordem das alternativas (A, B, C, D) muda a cada aparelho,
+    para ninguém decorar a letra. Por isso o gabarito mostra a <b>resposta certa por escrito</b>, não por letra.</p>
+    <table class="rapida" id="tabela"></table>
+  </div>
+
+  <div class="cartao">
+    <h2>📝 Respostas comentadas (questão por questão)</h2>
+    <div id="lista"></div>
+  </div>
+
+  <div class="cartao">
+    <h2>💛 Dicas de ouro para a prova</h2>
+    <div class="dica">💡 O <b>classificado</b> é um texto curto para procurar, vender, comprar ou oferecer algo. Hoje aparece muito na internet.</div>
+    <div class="dica">💡 O <b>adjetivo</b> combina em <b>gênero e número</b> com o substantivo: "sementes coloridas", não "coloridos".</div>
+    <div class="dica">💡 O <b>adjetivo pátrio</b> diz de onde a pessoa é: cearense, pernambucano, francês, alemão.</div>
+    <div class="dica">💡 <b>C</b> tem som de K antes de <b>A, O, U</b>; <b>QU</b> tem som de K antes de <b>E, I</b>.</div>
+    <div class="dica">💡 Sílabas: mono (1), di (2), tri (3), poli (4 ou mais).</div>
+    <div class="dica">💡 <b>Oxítona</b> (última), <b>paroxítona</b> (penúltima), <b>proparoxítona</b> (antepenúltima, sempre com acento).</div>
+    <div class="dica">💡 Monossílabo tônico terminado em a/e/o leva acento: pá, pé, pó.</div>
+  </div>
+
+  <a class="voltar" href="index.html">⬅️ Voltar para o estudo</a>
+</main>
+<div class="rodape">
+  Conteúdo baseado no livro <i>Phases Língua Portuguesa 3 — Livro 2</i> (Poliedro), Unidades 10 e 11.
+</div>
+
+<script>
+/* Mesmo banco de questões do simulado (index.html), na mesma ordem. */
+const SIMULADO = [
+ {q:"O classificado (anúncio) é um texto curto que serve para:", certa:"procurar, vender, comprar ou oferecer algo",
+  exp:"O classificado anuncia algo: serve para procurar, vender, comprar ou oferecer."},
+ {q:"Hoje em dia, os classificados aparecem MAIS:", certa:"na internet, em sites e aplicativos",
+  exp:"Os classificados passaram do jornal de papel para o mundo digital (sites e aplicativos)."},
+ {q:"Uma característica do classificado é ter:", certa:"descrição breve, às vezes com abreviações e telefone",
+  exp:"Como o espaço é pequeno, o classificado traz descrição curta, abreviações e telefone de contato."},
+ {q:"No livro, o Texto 1 'Procura-se um equilibrista' é um anúncio em forma de:", certa:"poema",
+  exp:"O Texto 1 é um classificado poético: um anúncio escrito em forma de poema."},
+ {q:"O adjetivo é a palavra que mostra:", certa:"uma característica do substantivo",
+  exp:"O adjetivo indica a característica (qualidade) do substantivo."},
+ {q:"Na frase 'feijões coloridos e brilhantes', as palavras 'coloridos' e 'brilhantes' são:", certa:"adjetivos",
+  exp:"Elas descrevem os feijões, então são adjetivos."},
+ {q:"Se trocamos 'feijões' por 'sementes', os adjetivos ficam:", certa:"coloridas e brilhantes (no feminino)",
+  exp:"O adjetivo combina em gênero: 'sementes' é feminino, então os adjetivos vão para o feminino."},
+ {q:"Qual é um adjetivo invariável (uma forma só para feminino e masculino)?", certa:"inteligente",
+  exp:"'Inteligente' não muda entre fem e masc: é invariável. Bonito/bonita muda."},
+ {q:"As frases 'um homem grande' e 'um grande homem' têm sentidos diferentes porque:", certa:"a posição do adjetivo mudou",
+  exp:"'Homem grande' fala de tamanho; 'grande homem', de importância. A posição mudou o sentido."},
+ {q:"O adjetivo pátrio indica:", certa:"o lugar de origem da pessoa",
+  exp:"O adjetivo pátrio diz de onde a pessoa nasceu: cearense, francês, alemão."},
+ {q:"Quem nasce no Ceará é:", certa:"cearense",
+  exp:"Quem nasce no Ceará é cearense."},
+ {q:"Quem nasce na Alemanha é:", certa:"alemão",
+  exp:"Quem nasce na Alemanha é alemão."},
+ {q:"A letra C tem som de K antes das vogais:", certa:"A, O e U",
+  exp:"C tem som de K antes de A, O e U (casa, copo, cuca)."},
+ {q:"O som de K antes de E e I é escrito com:", certa:"QU (que, qui)",
+  exp:"Antes de E e I, o som de K vira QU: queijo, quilo."},
+ {q:"A palavra 'pequi' é escrita com QU porque:", certa:"o som de K vem antes do I",
+  exp:"O som de K antes de I se escreve com QU: pequi."},
+ {q:"No dígrafo QU antes de E e I, a letra U:", certa:"não é pronunciada",
+  exp:"No QU antes de E/I (que, qui) o U não é pronunciado. Já antes de A (quadro) o U é pronunciado."},
+ {q:"A palavra 'sol' tem 1 sílaba, por isso ela é:", certa:"monossílaba",
+  exp:"1 sílaba = monossílaba (sol, pé, flor)."},
+ {q:"A palavra 'janela' (ja-ne-la) é:", certa:"trissílaba",
+  exp:"'Janela' tem 3 sílabas: trissílaba."},
+ {q:"A palavra 'computador' (com-pu-ta-dor) é:", certa:"polissílaba",
+  exp:"'Computador' tem 4 sílabas: polissílaba (4 ou mais)."},
+ {q:"A palavra 'café' tem a força na última sílaba. Ela é:", certa:"oxítona",
+  exp:"Força na última sílaba (ca-FÉ): oxítona."},
+ {q:"A palavra 'lâmpada' tem a força na antepenúltima sílaba. Ela é:", certa:"proparoxítona (sempre acentuada)",
+  exp:"Força na antepenúltima (LÂM-pa-da): proparoxítona, e toda proparoxítona tem acento."},
+ {q:"A palavra 'júri' tem a força na penúltima sílaba. Ela é:", certa:"paroxítona",
+  exp:"Força na penúltima (JÚ-ri): paroxítona."},
+ {q:"O monossílabo tônico terminado em -e, como em 'pe' (do corpo), se escreve:", certa:"pé, com acento",
+  exp:"Monossílabo tônico terminado em -e leva acento: pé."},
+ {q:"Na lenda 'Por que a cobra muda de pele', quem deveria levar o cesto com as novas peles para o homem era:", certa:"o cachorro",
+  exp:"Deus pediu ao cachorro que levasse o cesto com as peles até o homem."},
+ {q:"Na lenda, quem pegou o cesto e passou a trocar de pele quando envelhece foi:", certa:"a cobra",
+  exp:"A cobra pegou o cesto escondido; por isso ela troca de pele quando envelhece."}
+];
+
+let tab='';
+SIMULADO.forEach((q,i)=>{ if(i%5===0) tab+='<tr>'; tab+=`<td class="n">${i+1}</td><td class="r">${q.certa}</td>`; if(i%5===4) tab+='</tr>'; });
+if(SIMULADO.length%5!==0) tab+='</tr>';
+document.getElementById('tabela').innerHTML=tab;
+
+document.getElementById('lista').innerHTML=SIMULADO.map((q,i)=>`
+  <div class="item">
+    <div class="pergunta">${i+1}. ${q.q}</div>
+    <div class="certa">✅ Resposta certa: <b>${q.certa}</b></div>
+    <div class="porque">💬 ${q.exp}</div>
+  </div>`).join('');
+</script>
+</body>
+</html>
